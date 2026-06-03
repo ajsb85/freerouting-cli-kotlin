@@ -16,7 +16,7 @@ import app.freerouting.datastructures.UndoableObjects;
 import app.freerouting.geometry.planar.FloatPoint;
 import app.freerouting.geometry.planar.Line;
 import app.freerouting.geometry.planar.Polyline;
-import app.freerouting.gui.FileFormat;
+import app.freerouting.core.FileFormat;
 import app.freerouting.management.TextManager;
 import app.freerouting.management.gson.GsonProvider;
 import app.freerouting.rules.BoardRules;

@@ -1,7 +1,7 @@
 package app.freerouting.board
 
 import app.freerouting.core.RoutingJob
-import app.freerouting.gui.FileFormat
+import app.freerouting.core.FileFormat
 import app.freerouting.interactive.HeadlessBoardManager
 import app.freerouting.logger.FRLogger
 

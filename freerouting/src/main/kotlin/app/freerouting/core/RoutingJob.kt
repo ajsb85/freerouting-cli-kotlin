@@ -6,16 +6,11 @@ import app.freerouting.core.events.RoutingJobLogEntryAddedEventListener
 import app.freerouting.core.events.RoutingJobUpdatedEvent
 import app.freerouting.core.events.RoutingJobUpdatedEventListener
 import app.freerouting.io.specctra.RulesReader
-import app.freerouting.gui.FileFormat
-import app.freerouting.gui.WindowMessage
-import app.freerouting.interactive.GuiBoardManager
 import app.freerouting.logger.FRLogger
 import app.freerouting.logger.LogEntry
 import app.freerouting.settings.DesignRulesCheckerSettings
 import app.freerouting.settings.RouterSettings
 import com.google.gson.annotations.SerializedName
-import java.awt.Component
-import java.awt.Dimension
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
@@ -27,8 +22,6 @@ import java.time.Duration
 import java.time.Instant
 import java.util.ArrayList
 import java.util.UUID
-import javax.swing.JFileChooser
-import javax.swing.filechooser.FileNameExtensionFilter
 
 /**
  * Represents a job that needs to be processed by the router.
@@ -428,53 +421,6 @@ class RoutingJob : Serializable, Comparable<RoutingJob> {
         private const val RULES_FILE_EXTENSION: String = "rules"
         private const val SES_FILE_EXTENSION: String = "ses"
         private const val EAGLE_SCRIPT_FILE_EXTENSION: String = "scr"
-
-        /**
-         * Shows a file chooser for opening a design file.
-         */
-        @JvmStatic
-        fun showOpenDialog(p_default_directory: String?, p_parent: Component?): File? {
-            val fileChooser = JFileChooser(p_default_directory)
-            fileChooser.minimumSize = Dimension(500, 250)
-
-            // Add the file filter for SPECCTRA Design .DSN files
-            val dsnFilter = FileNameExtensionFilter("SPECCTRA Design file (*.dsn)", "dsn")
-            fileChooser.addChoosableFileFilter(dsnFilter)
-
-            // Add the file filter for Freerouting binary .FRB files
-            val frbFilter = FileNameExtensionFilter("Freerouting binary file (*.frb)", "frb")
-            fileChooser.addChoosableFileFilter(frbFilter)
-
-            // Set a file filter as the default one
-            fileChooser.fileFilter = dsnFilter
-
-            fileChooser.showOpenDialog(p_parent)
-            return fileChooser.selectedFile
-        }
-
-        @JvmStatic
-        fun read_rules_file(
-            p_design_name: String?,
-            p_parent_name: String?,
-            rules_file_name: String?,
-            p_board_handling: GuiBoardManager,
-            p_confirm_message: String?
-        ): Boolean {
-            val dsn_file_generated_by_host = p_board_handling
-                .get_routing_board().communication.specctra_parser_info.dsn_file_generated_by_host
-
-            try {
-                val rules_file = File(p_parent_name, rules_file_name)
-                FRLogger.info("Opening '$rules_file_name'...")
-                val input_stream = FileInputStream(rules_file)
-                if (dsn_file_generated_by_host && WindowMessage.confirm(p_confirm_message)) {
-                    return RulesReader.read(input_stream, p_design_name, p_board_handling.get_routing_board())
-                }
-            } catch (_: IOException) {
-                FRLogger.error("File '$rules_file_name' was not found.", null)
-            }
-            return false
-        }
 
         @JvmStatic
         fun getFileFormat(content: ByteArray?): FileFormat {

@@ -4,7 +4,7 @@ import app.freerouting.autoroute.BoardUpdateStrategy
 import app.freerouting.autoroute.ItemSelectionStrategy
 import app.freerouting.constants.Constants.FREEROUTING_VERSION
 import app.freerouting.core.BoardFileDetails
-import app.freerouting.gui.FileFormat
+import app.freerouting.core.FileFormat
 import app.freerouting.logger.FRLogger
 import app.freerouting.management.ReflectionUtil
 import app.freerouting.management.gson.GsonProvider

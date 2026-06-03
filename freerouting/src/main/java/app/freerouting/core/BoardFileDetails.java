@@ -4,7 +4,7 @@ import app.freerouting.board.BasicBoard;
 import app.freerouting.core.events.BoardFileDetailsUpdatedEvent;
 import app.freerouting.core.events.BoardFileDetailsUpdatedEventListener;
 import app.freerouting.core.scoring.BoardStatistics;
-import app.freerouting.gui.FileFormat;
+import app.freerouting.core.FileFormat;
 import app.freerouting.logger.FRLogger;
 import app.freerouting.management.gson.GsonProvider;
 import com.google.gson.annotations.SerializedName;

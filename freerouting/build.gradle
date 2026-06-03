@@ -318,6 +318,48 @@ tasks.matching { it.name == 'sourcesJar' }.configureEach {
     dependsOn 'writeVersionInfo'
 }
 
+sourceSets {
+    main {
+        java {
+            exclude 'app/freerouting/gui/**'
+            exclude 'app/freerouting/api/**'
+            exclude 'app/freerouting/interactive/GuiBoardManager.java'
+            exclude 'app/freerouting/interactive/InspectedItemState.java'
+            exclude 'app/freerouting/interactive/MenuState.java'
+            exclude 'app/freerouting/interactive/InspectItemsInRegionState.java'
+            exclude 'app/freerouting/interactive/InspectMenuState.java'
+            exclude 'app/freerouting/interactive/InteractiveActionThread.java'
+            exclude 'app/freerouting/interactive/InteractiveState.java'
+            exclude 'app/freerouting/interactive/CutoutRouteState.java'
+            exclude 'app/freerouting/interactive/DragItemState.java'
+            exclude 'app/freerouting/interactive/DragMenuState.java'
+            exclude 'app/freerouting/interactive/DragState.java'
+            exclude 'app/freerouting/interactive/DynamicRouteState.java'
+            exclude 'app/freerouting/interactive/ExpandTestState.java'
+            exclude 'app/freerouting/interactive/CircleConstructionState.java'
+            exclude 'app/freerouting/interactive/CornerItemConstructionState.java'
+            exclude 'app/freerouting/interactive/HoleConstructionState.java'
+            exclude 'app/freerouting/interactive/MakeSpaceState.java'
+            exclude 'app/freerouting/interactive/MoveItemState.java'
+            exclude 'app/freerouting/interactive/PinSwapState.java'
+            exclude 'app/freerouting/interactive/PolygonShapeConstructionState.java'
+            exclude 'app/freerouting/interactive/RouteMenuState.java'
+            exclude 'app/freerouting/interactive/RouteState.java'
+            exclude 'app/freerouting/interactive/StitchRouteState.java'
+            exclude 'app/freerouting/interactive/TileConstructionState.java'
+            exclude 'app/freerouting/interactive/ZoomRegionState.java'
+            exclude 'app/freerouting/interactive/SelectRegionState.java'
+            exclude 'app/freerouting/interactive/CopyItemState.java'
+            exclude 'app/freerouting/interactive/ScreenMessages.java'
+            exclude 'app/freerouting/interactive/ClearanceViolations.java'
+            exclude 'app/freerouting/interactive/AutorouterAndRouteOptimizerThread.java'
+            exclude 'app/freerouting/interactive/Route.java'
+            exclude 'app/freerouting/interactive/Settings.java'
+            exclude 'app/freerouting/interactive/commands/**'
+        }
+    }
+}
+
 // ==================== V1.9 BUILD CONFIGURATION ====================
 
 // V1.9 Source Set
