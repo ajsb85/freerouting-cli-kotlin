@@ -1,0 +1,44 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
+    id 'application'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
+kotlin {
+    jvmToolchain(25)
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':freerouting')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+}
+
+application {
+    mainClass = 'app.freerouting.FreeroutingCliKt'
+}
+
+tasks.register('executableJar', Jar) {
+    archiveBaseName = 'freerouting-cli-kotlin-current'
+    archiveClassifier = 'executable'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from {
+        configurations.runtimeClasspath.collect { zipTree(it) }
+    } {
+        exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+    }
+
+    from files(sourceSets.main.output)
+
+    manifest {
+        attributes 'Main-Class': 'app.freerouting.FreeroutingCliKt'
+    }
+}

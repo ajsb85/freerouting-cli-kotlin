@@ -1,0 +1,42 @@
+build
+out
+/.nb-gradle/
+.gradle/
+.idea/
+freerouting.iml
+tmp
+/logs/
+bin/
+.project
+.settings
+.vscode
+.classpath
+
+/scripts/build/.jdk14
+/scripts/build/runtime
+/scripts/build/Freerouting*
+
+/fixtures/*.ses
+/fixtures/*.bin
+/fixtures/**/*.zip
+
+.jdk
+
+# Visual Studio 2015/2017 cache/options directory
+/.vs/
+/integrations/KiCad/installjava/.vs
+/scripts/stats/.vs/
+
+freerouting.dsn
+temp-freerouting.dsn
+freerouting.ses
+
+# gemini-cli settings
+.gemini/
+
+# GitHub App credentials
+gha-creds-*.json
+
+# Agent files
+/.agent
+/.secrets

@@ -1,0 +1,29 @@
+# Gradle
+.gradle/
+**/build/
+**/out/
+
+# IDEs
+.idea/
+.vscode/
+.settings/
+.project
+.classpath
+*.iml
+
+# OS and logs
+.DS_Store
+*.log
+**/tmp/
+
+# Nested backups
+**/.git.bak/
+
+# Examples and test runs
+**/examples_run/
+
+# Miscellaneous
+.gemini/
+/.agent
+/.secrets
+gha-creds-*.json
