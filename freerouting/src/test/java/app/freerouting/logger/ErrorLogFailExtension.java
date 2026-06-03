@@ -68,7 +68,7 @@ public class ErrorLogFailExtension implements BeforeEachCallback, AfterEachCallb
 
     LogEntry[] errorEntries = Arrays
         .stream(FRLogger.getLogEntries().getEntries(startInstant, null))
-        .filter(e -> e.getType() == LogEntryType.Error)
+        .filter(e -> e.type == LogEntryType.Error)
         .toArray(LogEntry[]::new);
 
     if (errorEntries.length == 0) {
@@ -115,9 +115,9 @@ public class ErrorLogFailExtension implements BeforeEachCallback, AfterEachCallb
    */
   private static String formatEntry(LogEntry entry) {
     StringBuilder sb = new StringBuilder();
-    sb.append("  [ERROR] ").append(entry.getMessage());
+    sb.append("  [ERROR] ").append(entry.message);
 
-    Throwable ex = entry.getException();
+    Throwable ex = entry.exception;
     if (ex != null) {
       StringWriter sw = new StringWriter();
       ex.printStackTrace(new PrintWriter(sw));

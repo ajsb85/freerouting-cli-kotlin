@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import app.freerouting.Freerouting;
+import app.freerouting.constants.Constants;
 import app.freerouting.core.RoutingJob;
 import app.freerouting.core.RoutingJobState;
 import app.freerouting.core.Session;
@@ -51,7 +52,7 @@ public class RoutingJobSchedulerTest {
     // Create a test session
     SessionManager sessionManager = SessionManager.getInstance();
     UUID userId = UUID.randomUUID();
-    Session session = sessionManager.createSession(userId, "Freerouting/" + Freerouting.VERSION_NUMBER_STRING);
+    Session session = sessionManager.createSession(userId, "Freerouting/" + Constants.FREEROUTING_VERSION);
 
     // Create a test job
     RoutingJob job = new RoutingJob();
@@ -119,8 +120,8 @@ public class RoutingJobSchedulerTest {
     // Create a test session
     SessionManager sessionManager = SessionManager.getInstance();
     UUID userId = UUID.randomUUID();
-    Session session1 = sessionManager.createSession(userId, "Freerouting/" + Freerouting.VERSION_NUMBER_STRING);
-    Session session2 = sessionManager.createSession(userId, "Freerouting/" + Freerouting.VERSION_NUMBER_STRING);
+    Session session1 = sessionManager.createSession(userId, "Freerouting/" + Constants.FREEROUTING_VERSION);
+    Session session2 = sessionManager.createSession(userId, "Freerouting/" + Constants.FREEROUTING_VERSION);
 
     // Create test jobs
     RoutingJob job1 = createTestJob(session1.id);
@@ -146,7 +147,7 @@ public class RoutingJobSchedulerTest {
   private RoutingJob createTestJob() {
     SessionManager sessionManager = SessionManager.getInstance();
     UUID userId = UUID.randomUUID();
-    Session session = sessionManager.createSession(userId, "Freerouting/" + Freerouting.VERSION_NUMBER_STRING);
+    Session session = sessionManager.createSession(userId, "Freerouting/" + Constants.FREEROUTING_VERSION);
     return createTestJob(session.id);
   }
 

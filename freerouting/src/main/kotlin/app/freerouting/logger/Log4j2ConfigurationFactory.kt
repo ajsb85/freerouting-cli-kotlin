@@ -27,11 +27,11 @@ class Log4j2ConfigurationFactory : ConfigurationFactory() {
         return arrayOf("*")
     }
 
-    override fun getConfiguration(loggerContext: LoggerContext, source: ConfigurationSource): Configuration {
-        return getConfiguration(loggerContext, source.toString(), null as URI?)
+    override fun getConfiguration(loggerContext: LoggerContext?, source: ConfigurationSource?): Configuration? {
+        return getConfiguration(loggerContext, source?.toString() ?: "", null as URI?)
     }
 
-    override fun getConfiguration(loggerContext: LoggerContext, name: String, configLocation: URI?): Configuration {
+    override fun getConfiguration(loggerContext: LoggerContext?, name: String?, configLocation: URI?): Configuration {
         val builder = newConfigurationBuilder()
 
         // Read configuration from system properties

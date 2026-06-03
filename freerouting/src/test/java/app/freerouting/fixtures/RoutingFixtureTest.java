@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import app.freerouting.Freerouting;
+import app.freerouting.constants.Constants;
 import app.freerouting.core.RoutingJob;
 import app.freerouting.core.RoutingJobState;
 import app.freerouting.core.Session;
@@ -50,7 +51,7 @@ public class RoutingFixtureTest {
     UUID sessionId = UUID.randomUUID();
     Session session = SessionManager
         .getInstance()
-        .createSession(sessionId, "Freerouting/" + Freerouting.VERSION_NUMBER_STRING);
+        .createSession(sessionId, "Freerouting/" + Constants.FREEROUTING_VERSION);
 
     // Create a new job
     RoutingJob job = new RoutingJob(session.id);

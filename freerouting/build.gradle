@@ -358,6 +358,13 @@ sourceSets {
             exclude 'app/freerouting/interactive/commands/**'
         }
     }
+    test {
+        java {
+            exclude 'app/freerouting/gui/**'
+            exclude 'app/freerouting/api/**'
+            exclude 'app/freerouting/interactive/**'
+        }
+    }
 }
 
 // ==================== V1.9 BUILD CONFIGURATION ====================
