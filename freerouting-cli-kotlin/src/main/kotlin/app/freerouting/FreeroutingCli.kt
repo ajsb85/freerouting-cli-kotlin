@@ -32,11 +32,11 @@ fun main(args: Array<String>) {
     System.setProperty("freerouting.logging.file.location", userdataPath.resolve("freerouting.log").toString())
     
     // 3. Load global settings
-    val globalSettings = try {
+    val globalSettings = (try {
         GlobalSettings.load()
     } catch (e: Exception) {
-        GlobalSettings()
-    }
+        null
+    }) ?: GlobalSettings()
     Freerouting.globalSettings = globalSettings
     globalSettings.applyCommandLineArguments(args)
 
