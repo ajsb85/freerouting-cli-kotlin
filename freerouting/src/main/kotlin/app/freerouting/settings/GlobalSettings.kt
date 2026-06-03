@@ -258,38 +258,44 @@ class GlobalSettings : Serializable {
                     }
                 } else if (p_args[i].startsWith("-mp")) {
                     if (i + 1 < p_args.size && !p_args[i + 1].startsWith("-")) {
-                        routerSettings.maxPasses = Integer.decode(p_args[i + 1])
-                        if (routerSettings.maxPasses < 0) {
-                            routerSettings.maxPasses = 1
+                        var passes = Integer.decode(p_args[i + 1])
+                        if (passes < 0) {
+                            passes = 1
                         }
-                        if (routerSettings.maxPasses > 9999) {
-                            routerSettings.maxPasses = 9999
+                        if (passes > 9999) {
+                            passes = 9999
                         }
+                        routerSettings.maxPasses = passes
                         i++
                     }
                 } else if (p_args[i].startsWith("-mt")) {
                     if (i + 1 < p_args.size && !p_args[i + 1].startsWith("-")) {
-                        routerSettings.optimizer.maxThreads = Integer.decode(p_args[i + 1])
-                        if (routerSettings.optimizer.maxThreads < 0) {
-                            routerSettings.optimizer.maxThreads = 0
+                        val opt = routerSettings.optimizer ?: RouterOptimizerSettings().also { routerSettings.optimizer = it }
+                        var threads = Integer.decode(p_args[i + 1])
+                        if (threads < 0) {
+                            threads = 0
                         }
-                        if (routerSettings.optimizer.maxThreads > 1024) {
-                            routerSettings.optimizer.maxThreads = 1024
+                        if (threads > 1024) {
+                            threads = 1024
                         }
+                        opt.maxThreads = threads
                         i++
                     }
                 } else if (p_args[i].startsWith("-oit")) {
                     if (i + 1 < p_args.size && !p_args[i + 1].startsWith("-")) {
-                        routerSettings.optimizer.optimizationImprovementThreshold = p_args[i + 1].toFloat() / 100
-                        if (routerSettings.optimizer.optimizationImprovementThreshold <= 0) {
-                            routerSettings.optimizer.optimizationImprovementThreshold = 0.0f
+                        val opt = routerSettings.optimizer ?: RouterOptimizerSettings().also { routerSettings.optimizer = it }
+                        var threshold = p_args[i + 1].toFloat() / 100
+                        if (threshold <= 0) {
+                            threshold = 0.0f
                         }
+                        opt.optimizationImprovementThreshold = threshold
                         i++
                     }
                 } else if (p_args[i].startsWith("-us")) {
                     if (i + 1 < p_args.size && !p_args[i + 1].startsWith("-")) {
+                        val opt = routerSettings.optimizer ?: RouterOptimizerSettings().also { routerSettings.optimizer = it }
                         val op = p_args[i + 1].lowercase().trim()
-                        routerSettings.optimizer.boardUpdateStrategy = if (op == "global") {
+                        opt.boardUpdateStrategy = if (op == "global") {
                             BoardUpdateStrategy.GLOBAL_OPTIMAL
                         } else if (op == "hybrid") {
                             BoardUpdateStrategy.HYBRID
@@ -300,8 +306,9 @@ class GlobalSettings : Serializable {
                     }
                 } else if (p_args[i].startsWith("-is")) {
                     if (i + 1 < p_args.size && !p_args[i + 1].startsWith("-")) {
+                        val opt = routerSettings.optimizer ?: RouterOptimizerSettings().also { routerSettings.optimizer = it }
                         val op = p_args[i + 1].lowercase().trim()
-                        routerSettings.optimizer.itemSelectionStrategy = if (op.startsWith("seq")) {
+                        opt.itemSelectionStrategy = if (op.startsWith("seq")) {
                             ItemSelectionStrategy.SEQUENTIAL
                         } else if (op.startsWith("rand")) {
                             ItemSelectionStrategy.RANDOM
@@ -312,7 +319,8 @@ class GlobalSettings : Serializable {
                     }
                 } else if (p_args[i].startsWith("-hr")) {
                     if (i + 1 < p_args.size && !p_args[i + 1].startsWith("-")) {
-                        routerSettings.optimizer.hybridRatio = p_args[i + 1].trim()
+                        val opt = routerSettings.optimizer ?: RouterOptimizerSettings().also { routerSettings.optimizer = it }
+                        opt.hybridRatio = p_args[i + 1].trim()
                         i++
                     }
                 } else if (p_args[i] == "-l") {
@@ -395,23 +403,23 @@ class GlobalSettings : Serializable {
     }
 
     fun getMaxPasses(): Int {
-        return routerSettings.maxPasses
+        return routerSettings.maxPasses ?: 9999
     }
 
     fun getNumThreads(): Int {
-        return routerSettings.optimizer.maxThreads
+        return routerSettings.optimizer?.maxThreads ?: 1
     }
 
     fun getHybridRatio(): String? {
-        return routerSettings.optimizer.hybridRatio
+        return routerSettings.optimizer?.hybridRatio
     }
 
     fun getBoardUpdateStrategy(): BoardUpdateStrategy {
-        return routerSettings.optimizer.boardUpdateStrategy
+        return routerSettings.optimizer?.boardUpdateStrategy ?: BoardUpdateStrategy.GREEDY
     }
 
     fun getItemSelectionStrategy(): ItemSelectionStrategy {
-        return routerSettings.optimizer.itemSelectionStrategy
+        return routerSettings.optimizer?.itemSelectionStrategy ?: ItemSelectionStrategy.PRIORITIZED
     }
 
     companion object {
