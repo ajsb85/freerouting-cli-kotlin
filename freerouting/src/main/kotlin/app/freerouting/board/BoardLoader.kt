@@ -24,14 +24,15 @@ object BoardLoader {
         }
 
         // Check if input is available
-        if (job.input == null) {
+        val input = job.input
+        if (input == null) {
             FRLogger.error("Cannot load board: job has no input", null)
             return false
         }
 
         // Only DSN format is supported for now
-        if (job.input.format != FileFormat.DSN) {
-            FRLogger.error("Cannot load board: only DSN format is supported, got " + job.input.format, null)
+        if (input.format != FileFormat.DSN) {
+            FRLogger.error("Cannot load board: only DSN format is supported, got " + input.format, null)
             return false
         }
 
@@ -39,7 +40,7 @@ object BoardLoader {
         try {
             val boardManager = HeadlessBoardManager(job)
             boardManager.loadFromSpecctraDsn(
-                job.input.data,
+                input.data,
                 null,
                 ItemIdentificationNumberGenerator()
             )

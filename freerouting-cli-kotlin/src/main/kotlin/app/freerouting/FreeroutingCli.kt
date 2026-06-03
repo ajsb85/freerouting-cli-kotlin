@@ -45,14 +45,18 @@ fun main(args: Array<String>) {
     globalSettings.apiServerSettings.isEnabled = false
     globalSettings.mcpServerSettings.isEnabled = false
 
-    if (globalSettings.initialInputFile == null || globalSettings.initialOutputFile == null) {
+    val initialInputFile = globalSettings.initialInputFile
+    val initialOutputFile = globalSettings.initialOutputFile
+
+    if (initialInputFile == null || initialOutputFile == null) {
         System.err.println("Both an input file (-de) and an output file (-do) must be specified.")
         System.exit(1)
+        return
     }
 
     println("=== Starting Freerouting CLI (Kotlin Migration) ===")
-    println("Input DSN: ${globalSettings.initialInputFile}")
-    println("Output SES: ${globalSettings.initialOutputFile}")
+    println("Input DSN: $initialInputFile")
+    println("Output SES: $initialOutputFile")
 
     // Start session and job
     val cliSession = SessionManager.getInstance().createSession(
@@ -63,20 +67,23 @@ fun main(args: Array<String>) {
 
     // Load input
     try {
-        routingJob.setInput(globalSettings.initialInputFile)
+        routingJob.setInput(initialInputFile)
     } catch (e: Exception) {
         System.err.println("Couldn't load input file: ${e.message}")
         System.exit(1)
+        return
     }
 
-    if (routingJob.input == null) {
+    val jobInput = routingJob.input
+    if (jobInput == null) {
         System.err.println("Input file is null, aborting.")
         System.exit(1)
+        return
     }
 
     cliSession.addJob(routingJob)
 
-    val desiredOutputFile = File(globalSettings.initialOutputFile)
+    val desiredOutputFile = File(initialOutputFile)
     if (desiredOutputFile.exists()) {
         desiredOutputFile.delete()
     }
@@ -84,7 +91,7 @@ fun main(args: Array<String>) {
 
     val settingsMerger = globalSettings.settingsMergerProtype.clone()
     settingsMerger.addOrReplaceSources(
-        DsnFileSettings(routingJob.input.data, routingJob.input.filename)
+        DsnFileSettings(jobInput.data, jobInput.filename)
     )
 
     routingJob.routerSettings = settingsMerger.merge()
@@ -103,8 +110,13 @@ fun main(args: Array<String>) {
 
     if (routingJob.state == RoutingJobState.COMPLETED) {
         try {
-            val outputFilePath = Path.of(globalSettings.initialOutputFile)
-            Files.write(outputFilePath, routingJob.output.data.readAllBytes())
+            val outputFilePath = Path.of(initialOutputFile)
+            val jobOutput = routingJob.output
+            if (jobOutput != null) {
+                Files.write(outputFilePath, jobOutput.data.readAllBytes())
+            } else {
+                throw IllegalStateException("Output is null")
+            }
             println("=== CLI Routing Completed Successfully ===")
             println("Output SES written to: $outputFilePath")
             System.exit(0)
