@@ -1,6 +1,6 @@
-// -----------------------------------------------------------------------------
-// publishing information
-// -----------------------------------------------------------------------------
+if (!hasProperty('publishInfo')) {
+    ext.publishInfo = [:]
+}
 ext.publishInfo.artifactId = project.name.toLowerCase()
 ext.publishInfo.groupId = 'app.freerouting'
 ext.publishInfo.versionId = '2.2.5-SNAPSHOT'

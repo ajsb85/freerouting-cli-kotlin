@@ -2,10 +2,8 @@ import java.time.Duration
 
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm'
     id 'jvm-test-suite'
-    id 'signing'
-    id 'maven-publish'
-    id "com.vanniktech.maven.publish" version "0.36.0"
     id 'net.nemerosa.versioning' version '3.1.0'
     id 'com.github.ben-manes.versions' version '0.54.0'
     id "se.patrikerdes.use-latest-versions" version "0.2.19"
@@ -116,6 +114,7 @@ repositories {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
     // https://mvnrepository.com/artifact/javax.help/javahelp
     //implementation group: 'javax.help', name: 'javahelp', version: '2.0.05'
 
@@ -258,7 +257,7 @@ tasks.register('executableJar', Jar) {
 
 // Publishing — configuration lives in gradle/publishing.gradle
 
-apply from: 'gradle/publishing.gradle'
+apply from: 'gradle/project-info.gradle'
 
 // Signing — needed for publishing to Maven Central.
 // Reads signingInMemoryKey / signingInMemoryKeyId / signingInMemoryKeyPassword from
@@ -266,14 +265,14 @@ apply from: 'gradle/publishing.gradle'
 // Falls back gracefully when those properties are absent (e.g. in local dev / CI test builds).
 // NOTE: Gradle properties preserve literal \n (two characters); we must unescape to real
 // newlines before handing the key to BouncyCastle's ArmoredInputStream.
-signing {
-    def key     = findProperty("signingInMemoryKey")
-    def keyId   = findProperty("signingInMemoryKeyId")
-    def keyPass = findProperty("signingInMemoryKeyPassword")
-    if (key) {
-        useInMemoryPgpKeys(keyId as String, (key as String).replace('\\n', '\n'), keyPass as String)
-    }
-}
+// signing {
+//     def key     = findProperty("signingInMemoryKey")
+//     def keyId   = findProperty("signingInMemoryKeyId")
+//     def keyPass = findProperty("signingInMemoryKeyPassword")
+//     if (key) {
+//         useInMemoryPgpKeys(keyId as String, (key as String).replace('\\n', '\n'), keyPass as String)
+//     }
+// }
 
 // write constants to code
 tasks.register('writeVersionInfo') {
@@ -304,6 +303,9 @@ tasks.register('writeVersionInfo') {
 sourceSets.main.java.srcDirs += layout.buildDirectory.dir("generated-src")
 
 compileJava.dependsOn += 'writeVersionInfo'
+tasks.matching { it.name == 'compileKotlin' }.configureEach {
+    dependsOn 'writeVersionInfo'
+}
 
 // sourcesJar includes generated-src (from java.srcDirs); declare the dependency so that
 // writeVersionInfo runs first regardless of which plugin creates the sourcesJar task.
