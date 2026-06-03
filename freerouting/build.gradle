@@ -285,22 +285,27 @@ tasks.register('writeVersionInfo') {
     outputs.dir(outputDir)
 
     doLast {
-        def buildInfoCode = outputDir.get().file("Constants.java").asFile
+        // Remove old Java version if it exists
+        outputDir.get().file("Constants.java").asFile.delete()
+
+        def buildInfoCode = outputDir.get().file("Constants.kt").asFile
         buildInfoCode.getParentFile().mkdirs()
         buildInfoCode.write(
                 """
-            package app.freerouting.constants;
-            public final class Constants {
-              public static final String FREEROUTING_VERSION = \"${versionId}\";
-              public static final String FREEROUTING_BUILD_DATE = \"${buildDateValue}\";
+            package app.freerouting.constants
+
+            object Constants {
+                const val FREEROUTING_VERSION = "${versionId}"
+                const val FREEROUTING_BUILD_DATE = "${buildDateValue}"
             }
             """.stripIndent().trim()
         )
     }
 }
 
-// add the 'vmfconstants' src dir to the folders to compile (input to groovyc)
+// add the 'vmfconstants' src dir to the folders to compile
 sourceSets.main.java.srcDirs += layout.buildDirectory.dir("generated-src")
+sourceSets.main.kotlin.srcDirs += layout.buildDirectory.dir("generated-src")
 
 compileJava.dependsOn += 'writeVersionInfo'
 tasks.matching { it.name == 'compileKotlin' }.configureEach {
