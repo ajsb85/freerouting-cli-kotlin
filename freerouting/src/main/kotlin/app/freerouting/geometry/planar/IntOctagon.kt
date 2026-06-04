@@ -1020,7 +1020,8 @@ class IntOctagon : RegularTileShape, Serializable {
     }
 
     override fun cutout(p_shape: TileShape): Array<TileShape> {
-        return p_shape.cutout_from(this)
+        @Suppress("UNCHECKED_CAST")
+        return p_shape.cutout_from(this) as Array<TileShape>
     }
 
     /**

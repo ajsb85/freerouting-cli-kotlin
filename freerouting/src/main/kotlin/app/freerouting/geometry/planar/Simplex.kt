@@ -193,10 +193,10 @@ class Simplex : TileShape, Serializable {
     /**
      * returns the p_no-th edge line of this simplex. The edge lines are sorted in ascending direction.
      */
-    override fun border_line(p_no: Int): Line? {
+    override fun border_line(p_no: Int): Line {
         if (arr.isEmpty()) {
             FRLogger.warn("Simplex.edge_line : simplex is empty")
-            return null
+            throw IllegalStateException("Simplex is empty")
         }
         val no = when {
             p_no < 0 -> {
@@ -595,7 +595,8 @@ class Simplex : TileShape, Serializable {
     }
 
     override fun cutout(p_shape: TileShape): Array<TileShape> {
-        return p_shape.cutout_from(this)
+        @Suppress("UNCHECKED_CAST")
+        return p_shape.cutout_from(this) as Array<TileShape>
     }
 
     /**
