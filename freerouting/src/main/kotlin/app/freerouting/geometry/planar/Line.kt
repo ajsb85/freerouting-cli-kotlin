@@ -590,6 +590,9 @@ class Line : Comparable<Line>, Serializable {
     }
 
     companion object {
+        @JvmField
+        val ZERO = Line(Point.ZERO, Point.ZERO)
+
         /**
          * create a directed line from an IntPoint and an IntDirection
          */

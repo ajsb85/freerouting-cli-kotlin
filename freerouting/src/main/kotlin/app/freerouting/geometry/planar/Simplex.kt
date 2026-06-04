@@ -149,9 +149,9 @@ class Simplex : TileShape, Serializable {
      * Returns an approximation of the intersection of the p_no -1-th with the p_no-th line of this simplex by a FloatPoint. If the simplex is not bounded at this corner, the coordinates of the result
      * will be set to Integer.MAX_VALUE.
      */
-    override fun corner_approx(p_no: Int): FloatPoint? {
+    override fun corner_approx(p_no: Int): FloatPoint {
         if (arr.isEmpty()) {
-            return null
+            return FloatPoint(Double.MAX_VALUE, Double.MAX_VALUE)
         }
         val no = when {
             p_no < 0 -> {
@@ -172,7 +172,7 @@ class Simplex : TileShape, Serializable {
             val prev = if (no == 0) arr[arr.size - 1] else arr[no - 1]
             floatCorners[no] = arr[no].intersection_approx(prev)
         }
-        return floatCorners[no]
+        return floatCorners[no]!!
     }
 
     override fun corner_approx_arr(): Array<FloatPoint> {

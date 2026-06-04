@@ -150,7 +150,7 @@ class LineSegment : Serializable {
      * Transforms this LineSegment into a polyline of length 3.
      */
     fun to_polyline(): Polyline {
-        val lines = arrayOf(start, middle, end)
+        val lines = arrayOf(start!!, middle!!, end!!)
         return Polyline(lines)
     }
 

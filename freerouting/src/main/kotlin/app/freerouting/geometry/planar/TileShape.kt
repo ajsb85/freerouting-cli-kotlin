@@ -12,6 +12,8 @@ import java.util.LinkedList
 abstract class TileShape : PolylineShape(), ConvexShape, Serializable {
 
     companion object {
+        @JvmField
+        val EMPTY: TileShape = Simplex.EMPTY
         /**
          * creates a Simplex as intersection of the halfplanes defined by an array of
          * directed lines
@@ -820,7 +822,7 @@ abstract class TileShape : PolylineShape(), ConvexShape, Serializable {
      */
     override fun cutout(p_polyline: Polyline): Array<Polyline> {
         val intersectionNo = this.entrance_points(p_polyline)
-        val firstCorner = p_polyline.first_corner()
+        val firstCorner = p_polyline.first_corner()!!
         val firstCornerIsInside = this.contains_inside(firstCorner)
         if (intersectionNo.isEmpty()) {
             if (firstCornerIsInside) {
@@ -854,7 +856,7 @@ abstract class TileShape : PolylineShape(), ConvexShape, Serializable {
 
             var insertPiece = false
             for (i in currIntersectionNoOfPolyline + 1 until nextIntersectionNoOfPolyline) {
-                if (this.is_outside(p_polyline.corner(i))) {
+                if (this.is_outside(p_polyline.corner(i)!!)) {
                     insertPiece = true
                     break
                 }

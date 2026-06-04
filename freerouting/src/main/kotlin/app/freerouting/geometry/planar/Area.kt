@@ -33,7 +33,7 @@ interface Area {
     /**
      * Returns the array of holes, of this area.
      */
-    fun get_holes(): Array<Shape>
+    fun get_holes(): Array<out Shape>
 
     /**
      * Returns the smallest surrounding box of the area. If the area is not bounded, some coordinates of the resulting box may be equal Integer.MAX_VALUE
