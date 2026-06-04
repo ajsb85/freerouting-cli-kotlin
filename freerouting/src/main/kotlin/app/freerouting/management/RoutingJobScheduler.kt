@@ -109,9 +109,9 @@ class RoutingJobScheduler private constructor() {
                                                         java.io.FileInputStream(sesFile).use { sesStream ->
                                                             val summary = SesReader.read(sesStream, board)
                                                             FRLogger.info(
-                                                                "SES file loaded: ${summary.wiresImported()} wires, " +
-                                                                        "${summary.viasImported()} vias imported" +
-                                                                        if (summary.errorsEncountered() > 0) " (${summary.errorsEncountered()} errors)" else ""
+                                                                "SES file loaded: ${summary.wiresImported} wires, " +
+                                                                        "${summary.viasImported} vias imported" +
+                                                                        if (summary.errorsEncountered > 0) " (${summary.errorsEncountered} errors)" else ""
                                                             )
                                                         }
                                                     } else {

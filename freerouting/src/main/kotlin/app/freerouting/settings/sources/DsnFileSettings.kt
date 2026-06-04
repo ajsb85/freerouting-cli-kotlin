@@ -22,8 +22,8 @@ class DsnFileSettings(inputStream: InputStream, private val filename: String) : 
         var layerCount = 0
 
         if (result is DsnReadResult.Success && result.metadata != null) {
-            extracted = result.metadata.routerSettings()
-            layerCount = result.metadata.layerCount()
+            extracted = result.metadata.routerSettings
+            layerCount = result.metadata.layerCount
         }
 
         // Start with whatever the DSN's autoroute block provided (or a blank slate).

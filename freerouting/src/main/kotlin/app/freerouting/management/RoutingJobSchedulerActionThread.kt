@@ -133,8 +133,8 @@ class RoutingJobSchedulerActionThread(private val job: RoutingJob) : StoppableTh
                         initialUnroutedCount,
                         FRLogger.formatDuration(totalTime),
                         FRLogger.formatScore(
-                            finalStats.getNormalizedScore(job.routerSettings.scoring),
-                            finalStats.connections.incompleteCount, finalStats.clearanceViolations.totalCount
+                            finalStats.getNormalizedScore(job.routerSettings.scoring!!),
+                            finalStats.connections.incompleteCount ?: 0, finalStats.clearanceViolations.totalCount ?: 0
                         ),
                         FRLogger.defaultFloatFormat.format(job.resourceUsage.cpuTimeUsed),
                         FRLogger.defaultFloatFormat.format(job.resourceUsage.maxMemoryUsed / 1024.0f),
@@ -241,7 +241,7 @@ class RoutingJobSchedulerActionThread(private val job: RoutingJob) : StoppableTh
         var output = job.output
         val input = job.input
         if (output == null && input != null) {
-            val newOutput = BoardFileDetails(job.board)
+            val newOutput = BoardFileDetails(job.board!!)
             newOutput.addUpdatedEventListener { _ -> job.fireOutputUpdatedEvent() }
             newOutput.format = FileFormat.SES
             newOutput.setFilename(input.filenameWithoutExtension + ".ses")

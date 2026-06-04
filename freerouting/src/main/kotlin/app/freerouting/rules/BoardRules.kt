@@ -216,7 +216,7 @@ class BoardRules(
                     val existing_shape = existing_via
                         .get_padstack()
                         .get_shape(curr_from_layer)
-                    if (new_shape.max_width() < existing_shape.max_width()) {
+                    if (new_shape != null && existing_shape != null && new_shape.max_width() < existing_shape.max_width()) {
                         // The via with the smallest pad shape is preferred
                         default_rule.remove_via(existing_via)
                         default_rule.append_via(curr_via_info)
@@ -446,10 +446,10 @@ class BoardRules(
         val via_padstack = default_via_rule
             .get_via(0)
             .get_padstack()
-        var curr_shape = via_padstack.get_shape(via_padstack.from_layer())
-        var result = curr_shape.max_width()
-        curr_shape = via_padstack.get_shape(via_padstack.to_layer())
-        result = Math.max(result, curr_shape.max_width())
+        val curr_shape_from = via_padstack.get_shape(via_padstack.from_layer())
+        var result = curr_shape_from?.max_width() ?: 0.0
+        val curr_shape_to = via_padstack.get_shape(via_padstack.to_layer())
+        result = Math.max(result, curr_shape_to?.max_width() ?: 0.0)
         return result
     }
 

@@ -274,11 +274,11 @@ class RoutingJob : Serializable, Comparable<RoutingJob> {
     }
 
     fun getInputFileDetails(): String {
-        return BoardFileDetails(this.input!!.file).toString()
+        return BoardFileDetails(this.input!!.file!!).toString()
     }
 
     fun getOutputFileDetails(): String {
-        return BoardFileDetails(this.output!!.file).toString()
+        return BoardFileDetails(this.output!!.file!!).toString()
     }
 
     override fun compareTo(other: RoutingJob): Int {
