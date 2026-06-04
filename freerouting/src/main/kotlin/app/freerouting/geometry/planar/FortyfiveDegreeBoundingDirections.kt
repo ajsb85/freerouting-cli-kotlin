@@ -22,15 +22,15 @@ class FortyfiveDegreeBoundingDirections private constructor() : ShapeBoundingDir
     }
 
     override fun bounds(p_simplex: Simplex): RegularTileShape {
-        return p_simplex.bounding_octagon()
+        return p_simplex.bounding_octagon() ?: IntOctagon.EMPTY
     }
 
     override fun bounds(p_circle: Circle): RegularTileShape {
-        return p_circle.bounding_octagon()
+        return p_circle.bounding_octagon() ?: IntOctagon.EMPTY
     }
 
     override fun bounds(p_polygon: PolygonShape): RegularTileShape {
-        return p_polygon.bounding_octagon()
+        return p_polygon.bounding_octagon() ?: IntOctagon.EMPTY
     }
 
     companion object {

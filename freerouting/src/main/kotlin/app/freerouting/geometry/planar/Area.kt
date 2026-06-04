@@ -43,7 +43,7 @@ interface Area {
     /**
      * Returns the smallest surrounding octagon of the area. If the area is not bounded, some coordinates of the resulting octagon may be equal Integer.MAX_VALUE
      */
-    fun bounding_octagon(): IntOctagon
+    fun bounding_octagon(): IntOctagon?
 
     /**
      * Returns true, if p_point is contained in this area, but not inside a hole. Being on the border is not defined for FloatPoints because of numerical inaccuracy.
