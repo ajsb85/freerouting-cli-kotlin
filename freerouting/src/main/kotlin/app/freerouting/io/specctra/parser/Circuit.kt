@@ -60,7 +60,10 @@ class Circuit private constructor() {
                             max_trace_length = length_rule.max_length
                         }
                     } else if (next_token === Keyword.USE_VIA) {
-                        use_via.addAll(Structure.read_via_padstacks(p_scanner))
+                        val vias = Structure.read_via_padstacks(p_scanner)
+                        if (vias != null) {
+                            use_via.addAll(vias)
+                        }
                     } else if (next_token === Keyword.USE_LAYER) {
                         use_layer.addAll(Arrays.stream(DsnFile.read_string_list_scope(p_scanner)).toList())
                     } else {
